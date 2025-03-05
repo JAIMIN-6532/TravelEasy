@@ -2,9 +2,7 @@ package com.traveleasy.traveleasy.model;
 
 
 import jakarta.persistence.*;
-
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -17,13 +15,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+     Long id;
 
-    @NotNull
-    private String username;
+     String username;
 
-    @NotNull
-    private String password;
+     String password;
 
-    private String email;
+     String email;
 }

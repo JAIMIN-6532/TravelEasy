@@ -4,7 +4,7 @@ import com.traveleasy.traveleasy.exception.AuthException;
 import com.traveleasy.traveleasy.model.User;
 import com.traveleasy.traveleasy.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,11 @@
 package com.traveleasy.traveleasy.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 @Getter
 @Setter
@@ -23,5 +26,18 @@ public class Bus {
 
     private String destination;
 
-    private int totalSeats = 30;
+    private int totalSeats;
+
+    @Column(name = "available_seats")
+    private int availableSeats;
+
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime departureTime;
+
+    //Automatically set availableSeats to totalSeats before persisting
+    @PrePersist
+    @PreUpdate
+    public void updateAvailableSeats() {
+        this.availableSeats = this.totalSeats;
+    }
 }
