@@ -34,6 +34,8 @@ public class Bus {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime departureTime;
 
+    private int pricePerSeat;
+
     //Automatically set availableSeats to totalSeats before persisting
     @PrePersist
     @PreUpdate
