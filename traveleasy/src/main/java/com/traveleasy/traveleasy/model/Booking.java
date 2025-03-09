@@ -20,12 +20,14 @@ public class Booking {
     private Long id;
 
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     @ManyToOne
+    @JoinColumn(name = "bus_id")
     private Bus bus;
 
-    private int seatNumber;
+    private Integer seatNumber;
 
     private LocalDateTime bookingTime;
 }

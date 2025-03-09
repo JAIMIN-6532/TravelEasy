@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.seat{
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border-radius: 5px;
+    /* padding: 20px; */
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.seat-booked{
+    background-color: red;
+    color: white;
+}
+.seat-available{
+    background-color: rgb(196, 196, 196);
+    color: white;
+}
+.seat-selected{
+    background-color: blue;
+    color: white;
+}

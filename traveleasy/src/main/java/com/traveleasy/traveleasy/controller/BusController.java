@@ -20,7 +20,7 @@ public class BusController {
         this.busService = busService;
     }
 
-    @GetMapping("/getAllBuses")
+    @GetMapping("/")
     public ResponseEntity<List<Bus>> getAllBuses() {
         List<Bus> buses = busService.getAllBuses();
         return ResponseEntity.ok(buses);
@@ -35,7 +35,9 @@ public class BusController {
 
     @PostMapping("/search")
     public  ResponseEntity<List<Bus>>getBusesBySearch(@RequestBody BusSearchDto bus){
+        System.out.println(bus.getSource());
         List<Bus> buses = busService.findBusesBySourceAndDestination(bus.getSource(),bus.getDestination());
+        System.out.println(buses);
         return  ResponseEntity.ok(buses);
     }
 
