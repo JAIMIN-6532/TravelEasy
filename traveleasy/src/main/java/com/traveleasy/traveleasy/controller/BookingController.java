@@ -1,6 +1,7 @@
 package com.traveleasy.traveleasy.controller;
 
 import com.traveleasy.traveleasy.dto.BookingRequest;
+import com.traveleasy.traveleasy.dto.MyBookingsDto;
 import com.traveleasy.traveleasy.model.Booking;
 import com.traveleasy.traveleasy.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,4 +37,10 @@ public class BookingController {
     public List<Booking> bookMultipleSeats(@RequestBody BookingRequest bookingRequest) {
         return bookingService.bookMultipleSeats(bookingRequest);
     }
+
+    @GetMapping("/{uid}")
+    public List<MyBookingsDto> getMyBookings(@PathVariable Long uid){
+        return bookingService.getMyBookings(uid);
+    }
+
 }

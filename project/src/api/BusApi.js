@@ -17,6 +17,8 @@ export const searchBuses = async (source, destination, date) => {
   return response.data;
 };
 
+
+
 // Fetches all buses by sending a GET request to /getAllBuses endpoint
 export const getAllBuses = async () => {
   const response = await axios.get(`${API_BASE_URL}/ai/v1/bus/getAllBuses`);
@@ -39,7 +41,7 @@ export const getBookedSeats = async (busId) => {
 export const bookSeats = async (busId, selectedSeats, userId) => {
   const bookingData = {
     busId: busId,
-    userId: 1,
+    userId: userId,
     seatNumbers: selectedSeats,
     totalbookedseats: selectedSeats.length,
   };
@@ -52,4 +54,16 @@ export const bookSeats = async (busId, selectedSeats, userId) => {
     throw error;
   }
 };
+
+export const getBookings = async (user) => {
+
+  try{
+    const response = await axios.get(`${API_BASE_URL}/api/v1/booking/${user.id}`);
+    return response.data;
+  }catch(error){
+    console.error('Error fetching tickets:', error);
+    throw error;
+  }
+
+}
 

@@ -4,9 +4,13 @@ import { motion } from "framer-motion";
 import { bookSeats, getBookedSeats } from "../api/BusApi";
 import toast from "react-hot-toast";
 import "../index.css"
+import { useUser } from "../auth/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function BusDetails() {
   const { state } = useLocation();
+  const navigate = useNavigate();
+  const {user} = useUser();
   const bus = state ? state.bus : null;
   const userId = 1; // Replace with the actual userId (this could come from authentication)
 
@@ -47,15 +51,21 @@ const handleCheckout = async () => {
     toast.error("Please select at least one seat");
     return;
   }
+  if(!user){
+    toast.error("Please login to book a ticket");
+    navigate("/login");
+  }
 
   try {
-    await bookSeats(bus.id, selectedSeats, 1);  //userId to 1 later
+
+    await bookSeats(bus.id, selectedSeats, user.id);  //userId to 1 later
     toast.success("Booking successful!");
     setSelectedSeats([]);
     // Refresh booked seats after successful booking
     const seats = await getBookedSeats(bus.id);
     setBookedSeats(seats);
   } catch (error) {
+    if(user)
     toast.error(error.response?.data?.message || "Booking failed. Please try again.");
   }
 };

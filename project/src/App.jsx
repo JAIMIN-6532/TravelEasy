@@ -9,25 +9,29 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import BusDetails from './pages/BusDetails';
 
+import { UserProvider } from './auth/UserContext';
+
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="container mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/mybookings" element={<MyBookings />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/bus/:id" element={<BusDetails />} />
-          </Routes>
+    <UserProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-50">
+          <Navbar />
+          <div className="container mx-auto px-4 py-8">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/mybookings" element={<MyBookings />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/bus/:id" element={<BusDetails />} />
+            </Routes>
+          </div>
+          <Toaster position="top-center" />
         </div>
-        <Toaster position="top-center" />
-      </div>
-    </Router>
+      </Router>
+    </UserProvider>
   );
 }
 

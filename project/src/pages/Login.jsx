@@ -1,20 +1,25 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaLock, FaBus } from 'react-icons/fa';
-import { login } from '../api/authApi';
+import { login as apiLogin } from '../api/authApi';
 import toast from 'react-hot-toast';
+import { useUser } from '../auth/UserContext';
 
 function Login() {
+  const navigate = useNavigate();
+  const { login } = useUser(); // using context login function
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      const userData = await apiLogin(email, password);
+      // Update the user context (which also handles localStorage using JSON.stringify)
+      login(userData);
       toast.success('Login successful!');
-      // Handle successful login
+      navigate(-1); // Go back to the previous page
     } catch (error) {
       toast.error('Login failed. Please try again.');
     }

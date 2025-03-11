@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaLock, FaBus } from 'react-icons/fa';
 import { register } from '../api/authApi';
 import toast from 'react-hot-toast';
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -29,6 +30,7 @@ function Register() {
     try {
       await register(formData);
       toast.success('Registration successful! Please login.');
+      navigate('/login');
       // Handle successful registration
     } catch (error) {
       toast.error('Registration failed. Please try again.');
@@ -81,10 +83,10 @@ function Register() {
                 </div>
                 <input
                   id="name"
-                  name="name"
+                  name="username"
                   type="text"
                   required
-                  value={formData.name}
+                  value={formData.username}
                   onChange={handleChange}
                   className="appearance-none relative block w-full px-12 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-all duration-300 hover:border-blue-400"
                   placeholder="Full Name"

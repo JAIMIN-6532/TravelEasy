@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBus, FaHome, FaInfoCircle, FaEnvelope, FaTicketAlt, FaUserCircle } from 'react-icons/fa';
+import { useUser } from '../auth/UserContext';
 
 function Navbar() {
+  const { user, logout } = useUser();
+
   const navItems = [
     { to: "/", text: "Home", icon: <FaHome /> },
     { to: "/about", text: "About", icon: <FaInfoCircle /> },
@@ -24,7 +27,7 @@ function Navbar() {
             <span className="hidden md:block">BusBooking</span>
           </Link>
           <div className="flex space-x-1 md:space-x-6">
-            {navItems.map((item, index) => (
+            {navItems.map((item) => (
               <motion.div
                 key={item.to}
                 whileHover={{ scale: 1.1 }}
@@ -33,9 +36,12 @@ function Navbar() {
                 <Link
                   to={item.to}
                   className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300"
+                  onClick={item.text === "Login" && user ? logout : undefined}
                 >
                   <span className="text-lg">{item.icon}</span>
-                  <span className="hidden md:block">{item.text}</span>
+                  <span className="hidden md:block">
+                    {item.text === "Login" ? (user ? "Logout" : "Login") : item.text}
+                  </span>
                 </Link>
               </motion.div>
             ))}

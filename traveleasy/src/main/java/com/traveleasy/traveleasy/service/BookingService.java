@@ -1,6 +1,7 @@
 package com.traveleasy.traveleasy.service;
 
 import com.traveleasy.traveleasy.dto.BookingRequest;
+import com.traveleasy.traveleasy.dto.MyBookingsDto;
 import com.traveleasy.traveleasy.model.Booking;
 import com.traveleasy.traveleasy.model.Bus;
 import com.traveleasy.traveleasy.model.User;
@@ -96,5 +97,9 @@ public class BookingService {
         System.out.println(savedBookings);
 
         return savedBookings;
+    }
+
+    public List<MyBookingsDto> getMyBookings(Long uid) {
+        List<MyBookingsDto> myBookings = bookingRepository.findByUserId(uid);
     }
 }

@@ -7,16 +7,18 @@ import {
   FaClock,
   FaRupeeSign,
 } from "react-icons/fa";
-// import { getBookings } from "../api/BusApi";
+import { getBookings } from "../api/BusApi";
+import { useUser } from "../auth/UserContext";
 
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const {user} = useUser();
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // const data = await getBookings();
+
+        const data = await getBookings(user);
         setBookings(data);
       } catch (error) {
         console.error("Error fetching bookings:", error);

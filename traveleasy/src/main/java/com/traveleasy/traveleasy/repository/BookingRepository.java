@@ -1,5 +1,6 @@
 package com.traveleasy.traveleasy.repository;
 
+import com.traveleasy.traveleasy.dto.MyBookingsDto;
 import com.traveleasy.traveleasy.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +15,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByBusIdAndSeatNumber(Long busId, Integer seatNumber);
 
     boolean existsByBusIdAndSeatNumber(Long id, Integer seatNumber);
+
+    List<MyBookingsDto> findByUserId(Long uid);
 }
