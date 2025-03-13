@@ -58,7 +58,7 @@ export const bookSeats = async (busId, selectedSeats, userId) => {
 export const getBookings = async (user) => {
 
   try{
-    const response = await axios.get(`${API_BASE_URL}/api/v1/booking/${user.id}`);
+    const response = await axios.get(`${API_BASE_URL}/api/v1/booking/mybooking/${user.id}`);
     return response.data;
   }catch(error){
     console.error('Error fetching tickets:', error);

@@ -7,7 +7,8 @@ import {
   FaClock,
   FaRupeeSign,
 } from "react-icons/fa";
-import { getBookings } from "../api/BusApi";
+
+import { getBookings } from "../api/Busapi";
 import { useUser } from "../auth/UserContext";
 
 function MyBookings() {
@@ -18,7 +19,9 @@ function MyBookings() {
     const fetchBookings = async () => {
       try {
 
+        console.log("user", user);
         const data = await getBookings(user);
+        console.log("data", data);
         setBookings(data);
       } catch (error) {
         console.error("Error fetching bookings:", error);
@@ -85,7 +88,7 @@ function MyBookings() {
       </div>
 
       <div className="space-y-6">
-        {mockBookings.map((booking) => (
+        {bookings.map((booking) => (
           <motion.div
             key={booking.id}
             variants={itemVariants}
@@ -97,13 +100,9 @@ function MyBookings() {
                   {booking.busName}
                 </h2>
                 <span
-                  className={`px-4 py-1 rounded-full ${
-                    booking.status === "Confirmed"
-                      ? "bg-green-400 text-green-900"
-                      : "bg-yellow-400 text-yellow-900"
-                  } font-semibold`}
+                  className={`px-4 py-1 rounded-full bg-green-400 text-green-900 font-semibold`}
                 >
-                  {booking.status}
+                  Confirmed
                 </span>
               </div>
               <p className="text-blue-100">Booking ID: {booking.id}</p>
@@ -133,7 +132,7 @@ function MyBookings() {
                     <FaCalendarAlt className="text-blue-600" />
                     <div>
                       <p className="text-gray-600">Journey Date</p>
-                      <p className="font-semibold">{booking.date}</p>
+                      <p className="font-semibold">{new Date().toISOString()}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
@@ -141,7 +140,7 @@ function MyBookings() {
                     <div>
                       <p className="text-gray-600">Timing</p>
                       <p className="font-semibold">
-                        {booking.departureTime} - {booking.arrivalTime}
+                        {booking.bookingtime.join(" - ")}
                       </p>
                     </div>
                   </div>
@@ -152,7 +151,7 @@ function MyBookings() {
                 <div>
                   <p className="text-gray-600">Seat Numbers</p>
                   <div className="flex gap-2 mt-1">
-                    {booking.seats.map((seat) => (
+                    {booking.seatNumbers.map((seat) => (
                       <span
                         key={seat}
                         className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-semibold"
@@ -166,7 +165,7 @@ function MyBookings() {
                   <p className="text-gray-600">Total Amount</p>
                   <p className="text-2xl font-bold text-blue-600 flex items-center">
                     <FaRupeeSign className="text-xl" />
-                    {booking.totalAmount}
+                    {booking.pricePerSeat * booking.seatNumbers.length}
                   </p>
                 </div>
               </div>

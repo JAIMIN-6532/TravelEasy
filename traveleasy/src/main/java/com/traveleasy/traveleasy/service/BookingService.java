@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,7 +100,29 @@ public class BookingService {
         return savedBookings;
     }
 
-    public List<MyBookingsDto> getMyBookings(Long uid) {
-        List<MyBookingsDto> myBookings = bookingRepository.findByUserId(uid);
+    public List<MyBookingsDto> getBookingsByUserId(Long userId) {
+        List<Booking> bookings = bookingRepository.findByUserId(userId);
+
+        Map<Bus, List<Booking>> bookingsByBus = bookings.stream()
+                .collect(Collectors.groupingBy(Booking::getBus));
+
+        return bookingsByBus.entrySet().stream()
+                .map(entry -> {
+                    Bus bus = entry.getKey();
+                    List<Integer> seatNumbers = entry.getValue().stream()
+                            .map(Booking::getSeatNumber)
+                            .collect(Collectors.toList());
+
+                    return MyBookingsDto.builder()
+                            .busName(bus.getBusName())
+                            .seatNumbers(seatNumbers)
+                            .pricePerSeat(bus.getPricePerSeat())
+                            .source(bus.getSource())
+                            .destination(bus.getDestination())
+                            .bookingtime(entry.getValue().get(0).getBookingTime())
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
+
 }

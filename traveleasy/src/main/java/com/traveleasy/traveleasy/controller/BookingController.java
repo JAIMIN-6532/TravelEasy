@@ -5,6 +5,7 @@ import com.traveleasy.traveleasy.dto.MyBookingsDto;
 import com.traveleasy.traveleasy.model.Booking;
 import com.traveleasy.traveleasy.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,9 +39,10 @@ public class BookingController {
         return bookingService.bookMultipleSeats(bookingRequest);
     }
 
-    @GetMapping("/{uid}")
-    public List<MyBookingsDto> getMyBookings(@PathVariable Long uid){
-        return bookingService.getMyBookings(uid);
-    }
+    @GetMapping("/mybooking/{uid}")
+public ResponseEntity<List<MyBookingsDto>> getUserBookings(@PathVariable Long uid) {
+    List<MyBookingsDto> bookings = bookingService.getBookingsByUserId(uid);
+    return ResponseEntity.ok(bookings);
+}
 
 }
