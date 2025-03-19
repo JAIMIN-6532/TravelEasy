@@ -1,6 +1,6 @@
 // BusApi.js
 import axios from "axios";
-
+import moment from 'moment-timezone';
 // Set your backend URL
 const API_BASE_URL = "http://localhost:8080"; // Change this as needed
 
@@ -38,12 +38,18 @@ export const getBookedSeats = async (busId) => {
   }
 };
 // BusApi.js
-export const bookSeats = async (busId, selectedSeats, userId) => {
+export const bookSeats = async (busId, selectedSeats, userId,date) => {
+  console.log("date",date);
+  const istDate = moment(date)
+  .tz('Asia/Kolkata')
+  .format('YYYY-MM-DD');
+  
   const bookingData = {
     busId: busId,
     userId: userId,
     seatNumbers: selectedSeats,
     totalbookedseats: selectedSeats.length,
+    date : istDate
   };
 
   try {
@@ -59,6 +65,7 @@ export const getBookings = async (user) => {
 
   try{
     const response = await axios.get(`${API_BASE_URL}/api/v1/booking/mybooking/${user.id}`);
+    console.log("Received booking:", response.data);
     return response.data;
   }catch(error){
     console.error('Error fetching tickets:', error);

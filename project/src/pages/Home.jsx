@@ -37,7 +37,8 @@ function Home() {
   const handleViewSeats = (busId) => {
     const bus = buses.find((bus) => bus.id === busId);
     setbus(bus);
-    navigate(`/bus/${busId}`, {state:{bus}});
+    console.log("bus",bus);
+    navigate(`/bus/${busId}`, {state:{bus,date}});
   }
 
   const containerVariants = {

@@ -4,6 +4,7 @@ package com.traveleasy.traveleasy.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -29,5 +30,6 @@ public class Booking {
 
     private Integer seatNumber;
 
-    private LocalDateTime bookingTime;
+    private LocalDate bookingTime;
+
 }

@@ -11,7 +11,9 @@ import com.traveleasy.traveleasy.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,7 @@ public class BookingService {
         }
 
         // Create a new booking
-        bookingRequest.setBookingTime(LocalDateTime.now());
+        bookingRequest.setBookingTime(LocalDate.now());
         bookingRequest.setUserId(user);
         bookingRequest.setBus(bus);
 
@@ -64,6 +66,7 @@ public class BookingService {
 
         int seatsToBook = bookingRequest.getSeatNumbers().size();
         System.out.println(seatsToBook);
+        LocalDate travelDate = bookingRequest.getDate();
 
         System.out.println(bus.getAvailableSeats());
         // Check available seats first
@@ -85,7 +88,7 @@ public class BookingService {
                         .userId(userRepository.findById(bookingRequest.getUserId())
                                 .orElseThrow(() -> new RuntimeException("User not found")))
                         .seatNumber(seatNumber)
-                        .bookingTime(LocalDateTime.now())
+                        .bookingTime(travelDate)
                         .build())
                 .collect(Collectors.toList());
 
@@ -99,16 +102,19 @@ public class BookingService {
 
         return savedBookings;
     }
-
     public List<MyBookingsDto> getBookingsByUserId(Long userId) {
         List<Booking> bookings = bookingRepository.findByUserId(userId);
 
-        Map<Bus, List<Booking>> bookingsByBus = bookings.stream()
-                .collect(Collectors.groupingBy(Booking::getBus));
+        // Group by both bus and booking date
+        Map<Map.Entry<Bus, LocalDate>, List<Booking>> bookingsByBusAndDate = bookings.stream()
+                .collect(Collectors.groupingBy(b ->
+                        new AbstractMap.SimpleEntry<>(b.getBus(), b.getBookingTime())
+                ));
 
-        return bookingsByBus.entrySet().stream()
+        return bookingsByBusAndDate.entrySet().stream()
                 .map(entry -> {
-                    Bus bus = entry.getKey();
+                    Bus bus = entry.getKey().getKey();
+                    LocalDate bookingDate = entry.getKey().getValue();
                     List<Integer> seatNumbers = entry.getValue().stream()
                             .map(Booking::getSeatNumber)
                             .collect(Collectors.toList());
@@ -119,10 +125,11 @@ public class BookingService {
                             .pricePerSeat(bus.getPricePerSeat())
                             .source(bus.getSource())
                             .destination(bus.getDestination())
-                            .bookingtime(entry.getValue().get(0).getBookingTime())
+                            // Combine booking date with bus departure time
+                            .bookingTime(bookingDate.atTime(bus.getDepartureTime()))
+                            .departureTime(bus.getDepartureTime())
                             .build();
                 })
                 .collect(Collectors.toList());
     }
-
 }

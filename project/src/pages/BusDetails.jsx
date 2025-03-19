@@ -12,6 +12,7 @@ function BusDetails() {
   const navigate = useNavigate();
   const {user} = useUser();
   const bus = state ? state.bus : null;
+  const selectedDate = state ? state.date : null;
   const userId = 1; // Replace with the actual userId (this could come from authentication)
 
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -57,8 +58,9 @@ const handleCheckout = async () => {
   }
 
   try {
+    const formattedDate = selectedDate.toISOString().split('T')[0];
 
-    await bookSeats(bus.id, selectedSeats, user.id);  //userId to 1 later
+    await bookSeats(bus.id, selectedSeats, user.id,formattedDate);  //userId to 1 later
     toast.success("Booking successful!");
     setSelectedSeats([]);
     // Refresh booked seats after successful booking

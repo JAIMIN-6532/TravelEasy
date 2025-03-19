@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -18,6 +19,7 @@ public class MyBookingsDto {
     private double pricePerSeat;
     private String source;
     private String destination;
-    private LocalDateTime bookingtime;
+    private LocalDateTime bookingTime;
+    private LocalTime departureTime;
 
 }
