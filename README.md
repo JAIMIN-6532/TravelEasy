@@ -18,6 +18,6 @@
    git clone https://github.com/JAIMIN-6532/TravelEasy.git
 
 -> 🎨 Frontend:
-   cd ./project
-   npm install
-   npm run dev
+      cd ./project
+      npm install
+      npm run dev
