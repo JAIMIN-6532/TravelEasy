@@ -15,7 +15,7 @@
 ## 🚀 Installation & Setup
 
 -> 📥 Clone the repository:  
-   git clone https://github.com/yourusername/TravelEasy.git
+   https://github.com/JAIMIN-6532/TravelEasy.git
 
 -> 🎨 Frontend:
    cd ./project 
